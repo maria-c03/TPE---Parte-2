@@ -21,37 +21,40 @@ class JuegoApiController{
         return json_decode($this->data);
     }
 
-    public function getJuegos($params = null){
-        $juegos = $this->model->getAll($params);
+    public function getJuegos(){
+        $sort = null;
+        $order = null;
+        $limitPage = 3;
+        $offset = 0;
+        if(!empty($_GET['limitPage'])){
+            $limitPage=$_GET['limitPage'];
+        }
+        if(!empty($_GET['offset'])){
+            $offset=$_GET['offset'];
+        }
+        if(!empty($_GET['sort'])){
+            $sort = $_GET['sort'];
+        }
+        if(!empty($_GET['order'])){
+            $order =$_GET['order'];
+        }
+        if (($sort != null && $order == null) || $order !=null && $sort == null){
+            if ($sort ==null){
+                return $this->view->response("Sort are required", 400);
+            }else{
+                return $this->view->response("Order are required", 400);
+            }
+        }
+        if ($sort == null && $order == null){
+            $juegos = $this->model->getAll($limitPage, $offset);
+        }else
+            $juegos = $this->model->getAllOrder($sort, $order, $limitPage, $offset);
         if($juegos){
             $this->view->response($juegos, 200);
         }else{
             $this->view->response("Page not found", 404);
         }
     }
-
-
-     
-    
-    public function getJuegosOrder($params = null){
-        $sort = $_GET['sort'];
-        // $order =$_GET['order'];
-        $juegos = $this->model->getAllOrder($sort);
-
-        if($juegos){
-            $this->view->response($juegos, 200);
-        }else{
-            $this->view->response("Page not found", 404);
-        }
-    }
-
-
-
-
-
-
-     //ver el tema de parametros GET ----ej: api/tareas?sort=prioridad&order=asc
-    //devuelve el arreglo de tareas ordenado por prioridad ascendente
 
     public function getJuego($params = null){
         $idJuego = $params[':ID'];

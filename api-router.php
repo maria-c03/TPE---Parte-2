@@ -12,7 +12,6 @@ $router->addRoute('juegos','POST','JuegoApiController', 'addJuego');
 $router->addRoute('juegos/:ID','PUT','JuegoApiController', 'modifyJuego');
 
 
-$router->addRoute('juegos2','GET','JuegoApiController', 'getJuegosOrder');
 
 
 

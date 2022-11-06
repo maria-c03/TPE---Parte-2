@@ -9,19 +9,17 @@ class JuegoModel{
 
     
     //listar los items
-    function getAll(){
-        $query = $this->db->prepare('SELECT * FROM juego');
+    function getAll($limitPage, $offset){
+        $query = $this->db->prepare("SELECT * FROM juego limit $limitPage offset $offset");
         $query->execute();
         $juegos = $query->fetchAll(PDO::FETCH_OBJ);
         return $juegos;
     }
 
 
-
-    function getAllOrder($order){
-        $sql = "SELECT * FROM juego ORDER BY $order";
-        var_dump($sql);
-        $query = $this->db->prepare($sql);
+//consultar como mejorar el cogido para evitar la inyeccion!
+    function getAllOrder($sort, $order, $limitPage, $offset){
+        $query = $this->db->prepare("SELECT * FROM juego ORDER BY $sort $order limit $limitPage offset $offset");
         $query->execute();
         $juegos = $query->fetchAll(PDO::FETCH_OBJ);
         return $juegos;
