@@ -25,9 +25,6 @@ class JuegoModel{
         return $juegos;
     }
 
-
-
-
     
     //listar un item
     function get($idJuego){
@@ -41,12 +38,13 @@ class JuegoModel{
     function insert($nombre, $descripcion, $precio, $id_genero){
         $query = $this->db->prepare("INSERT INTO juego(nombre, descripcion, precio, id_genero) VALUES(?, ?, ?, ?)");
         $query->execute(array($nombre, $descripcion, $precio, $id_genero));
+        return $this->db->lastInsertId();
     }
     
     //modificar un juego(MODIFICACION)
-    function modify($id, $nombre, $descripcion, $precio, $id_genero){
+    function modify($idJuego, $nombre, $descripcion, $precio, $id_genero){
         $query = $this->db->prepare("UPDATE juego SET nombre=?, descripcion=?, precio=?, id_genero=? WHERE id_juego=?");
-        $query->execute(array($nombre, $descripcion, $precio, $id_genero, $id));
+        $query->execute(array($nombre, $descripcion, $precio, $id_genero, $idJuego));
     }
     
     //borrar un juego (BAJA)
