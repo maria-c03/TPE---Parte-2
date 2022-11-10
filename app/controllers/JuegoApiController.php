@@ -30,19 +30,23 @@ class JuegoApiController{
         $order = null;
         $limitPage = 3;
         $offset = 0;
+
         if(!empty($_GET['limitPage']) || ($_GET['limitPage'] == "limitPage")){
             $limitPage=$_GET['limitPage'];
-            var_dump($limitPage);
         }
+
         if(!empty($_GET['offset']) || ($_GET['offset'] == "offset")){
             $offset=$_GET['offset'];
         }
-        if(!empty($_GET['sort']) && ($_GET['sort'] == "precio") || ($_GET['sort'] == "id_juego") || ($_GET['sort'] == "id_genero")|| ($_GET['sort'] == "nombre")){
+
+        if(!empty($_GET['sort']) && ($_GET['sort'] == "precio") || ($_GET['sort'] == "id_juego") || ($_GET['sort'] == "id_genero") || ($_GET['sort'] == "nombre")){
             $sort = $_GET['sort'];
         }
-        if(!empty($_GET['order']) && ($_GET['order'] == "asc") || ($_GET['order'] == "desc")){
+
+        if(!empty($_GET['order']) && ($_GET['order'] == "asc") || ($_GET['order'] == "desc") || ($_GET['order'] == "ASC") || ($_GET['order'] == "DESC")){
             $order =$_GET['order'];
         }
+
         if (($sort != null && $order == null) || $order !=null && $sort == null){
             if ($sort ==null){
                 return $this->view->response("Sort is required or the field is invalid", 400);
@@ -50,10 +54,29 @@ class JuegoApiController{
                 return $this->view->response("Order is required or the field is invalid", 400);
             }
         }
+
+        $precio = null;
+        if(!empty($_GET['precio'])){
+            $precio = $_GET['precio'];
+        }
+
+        $operatorPrice = null;
+
+        if(!empty($_GET['operatorPrice'])){
+            $operatorPrice = $_GET['operatorPrice'];
+        }
+
         if ($sort == null && $order == null){
             $juegos = $this->model->getAll($limitPage, $offset);
-        }else
+        }elseif($precio != null && $operatorPrice != null){
+            $juegos = $this->model->filterByPrice($sort, $order, $limitPage, $offset, $precio, $operatorPrice);
+        }elseif(($precio != null && $operatorPrice == null) || ($precio == null && $operatorPrice != null)){
+            return $this->view->response("price and operatorPrice are required", 400);
+        }
+        else{
             $juegos = $this->model->getAllOrder($sort, $order, $limitPage, $offset);
+        }
+
         if($juegos){
             $this->view->response($juegos, 200);
         }else{
@@ -89,7 +112,8 @@ class JuegoApiController{
         // }
 
         $juego = $this->getData();
-        if($juego->id_genero == "2" || $juego->id_genero == "3" || $juego->id_genero == "4" || $juego->id_genero == "15" || $juego->id_genero == "20"){
+        $id_genero = $juego->id_genero;
+        if($id_genero == "2" || $id_genero == "3" || $id_genero == "4" ||$id_genero == "15" ||$id_genero == "20"){
             if (empty($juego->nombre) || empty($juego->descripcion) || empty($juego->precio) || empty($juego->id_genero)) {
                 $this->view->response("Complete los datos", 400);
             } else {
@@ -103,10 +127,10 @@ class JuegoApiController{
     }
 
     public function modifyJuego($params = null){
-        // if(!$this->AuthApiHelper->isLoggedIn()){
-        //     $this->view->response("No estas logeado", 401);
-        //     return;
-        // }
+        if(!$this->AuthApiHelper->isLoggedIn()){
+            $this->view->response("No estas logeado", 401);
+            return;
+        }
         $idJuego = $params[':ID'];
         $juego = $this->model->get($idJuego);
         if ($juego){
@@ -115,7 +139,8 @@ class JuegoApiController{
             $descripcion = $juegoModify->descripcion;
             $precio = $juegoModify->precio;
             $id_genero = $juegoModify->id_genero;
-            if($juego->id_genero == "2" || $juego->id_genero == "3" || $juego->id_genero == "4" || $juego->id_genero == "15" || $juego->id_genero == "20"){
+            var_dump($id_genero);
+            if(($id_genero == "2") || ( $id_genero == "3") || ($id_genero == "4") || ($id_genero == "15") || ($id_genero == "20")){
                 $this->model->modify($idJuego, $nombre, $descripcion, $precio, $id_genero);
                 $this->view->response("El juego ha sido actualizado", 200);
             } else{

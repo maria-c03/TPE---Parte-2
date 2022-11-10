@@ -1,7 +1,21 @@
 <?php
 
+
 class AuthApiHelper{
+    function base64url_encode($data) {
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+    function isLoggedIn(){
+        $payload = $this->getToken();
+        if(isset($payload->id)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     function getToken(){
+        $key = "WebKeyTPE";
         $authentication = $this->getAuthHeader();
         $authentication = explode(" ", $authentication);
         if($authentication[0] != "Bearer" || count($authentication) != 2){
@@ -11,8 +25,8 @@ class AuthApiHelper{
         $header = $token[0];
         $payload = $token[1];
         $signature = $token[2];
-        $new_signature = hash_hmac('SHA256', "$header.$payload", "Clave1234", true);
-        $new_signature = base64url_encode($new_signature);
+        $new_signature = hash_hmac('SHA256', "$header.$payload", $key, true);
+        $new_signature = $this->base64url_encode($new_signature);
         if($signature!=$new_signature){
             return array();   
         }
@@ -21,15 +35,6 @@ class AuthApiHelper{
             return array();
         }
         return $payload;
-    }
-
-    function isLoggedIn(){
-        $payload = $this->getToken();
-        if(isset($payload->id)){
-            return true;
-        }else{
-            return false;
-        }
     }
 
     function getAuthHeader(){

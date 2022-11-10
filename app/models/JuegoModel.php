@@ -25,6 +25,12 @@ class JuegoModel{
         return $juegos;
     }
 
+    function filterByPrice($sort, $order, $limitPage, $offset, $precio, $operatorPrice){
+        $query = $this->db->prepare("SELECT * FROM juego WHERE precio $operatorPrice ? ORDER BY $sort $order limit $limitPage offset $offset");
+        $query->execute(array($precio));
+        $juegos = $query->fetchAll(PDO::FETCH_OBJ);
+        return $juegos;
+    }
     
     //listar un item
     function get($idJuego){

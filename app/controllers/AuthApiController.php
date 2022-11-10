@@ -25,6 +25,7 @@ class AuthApiController{
     }
 
     public function getToken() {
+        $key = "WebKeyTPE";
         // Obtener "Basic base64(user:pass)
         $basic = $this->authHelper->getAuthHeader();
         
@@ -58,10 +59,10 @@ class AuthApiController{
             );
             $header = base64url_encode(json_encode($header));
             $payload = base64url_encode(json_encode($payload));
-            $signature = hash_hmac('SHA256', "$header.$payload", "Clave1234", true);
+            $signature = hash_hmac('SHA256', "$header.$payload", $key , true);
             $signature = base64url_encode($signature);
             $token = "$header.$payload.$signature";
-             $this->view->response($token, 200);
+            $this->view->response($token, 200);
         }else{
             $this->view->response('No autorizado', 401);
         }
