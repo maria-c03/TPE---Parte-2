@@ -1,62 +1,61 @@
 <?php
-class JuegoModel{
+class GameModel{
     private $db;
 
     function __construct(){
         $this->db = new PDO('mysql:host=localhost;'.'dbname=db_juegos;charset=utf8','root', '');
     }
 
-
-    
-    //listar los items
     function getAll($limitPage, $offset){
         $query = $this->db->prepare("SELECT * FROM juego limit $limitPage offset $offset");
         $query->execute();
-        $juegos = $query->fetchAll(PDO::FETCH_OBJ);
-        return $juegos;
+        $games = $query->fetchAll(PDO::FETCH_OBJ);
+        return $games;
     }
 
-
-//consultar como mejorar el cogido para evitar la inyeccion!
     function getAllOrder($sort, $order, $limitPage, $offset){
         $query = $this->db->prepare("SELECT * FROM juego ORDER BY $sort $order limit $limitPage offset $offset");
         $query->execute();
-        $juegos = $query->fetchAll(PDO::FETCH_OBJ);
-        return $juegos;
+        $games = $query->fetchAll(PDO::FETCH_OBJ);
+        return $games;
     }
 
-    function filterByPrice($sort, $order, $limitPage, $offset, $precio, $operatorPrice){
+    function filterByPrice($sort, $order, $limitPage, $offset, $price, $operatorPrice){
         $query = $this->db->prepare("SELECT * FROM juego WHERE precio $operatorPrice ? ORDER BY $sort $order limit $limitPage offset $offset");
-        $query->execute(array($precio));
-        $juegos = $query->fetchAll(PDO::FETCH_OBJ);
-        return $juegos;
+        $query->execute(array($price));
+        $games = $query->fetchAll(PDO::FETCH_OBJ);
+        return $games;
     }
     
-    //listar un item
-    function get($idJuego){
+    function get($idGame){
         $query = $this->db->prepare("SELECT * FROM juego WHERE id_juego=?");
-        $query->execute(array($idJuego));
-        $juego = $query->fetch(PDO::FETCH_OBJ);
-        return $juego;
+        $query->execute(array($idGame));
+        $game = $query->fetch(PDO::FETCH_OBJ);
+        return $game;
     }
 
-    //agregar un juego(ALTA)
-    function insert($nombre, $descripcion, $precio, $id_genero){
+    function insert($name, $description, $price, $id_gender){
         $query = $this->db->prepare("INSERT INTO juego(nombre, descripcion, precio, id_genero) VALUES(?, ?, ?, ?)");
-        $query->execute(array($nombre, $descripcion, $precio, $id_genero));
+        $query->execute(array($name, $description, $price, $id_gender));
         return $this->db->lastInsertId();
     }
     
-    //modificar un juego(MODIFICACION)
-    function modify($idJuego, $nombre, $descripcion, $precio, $id_genero){
+    function modify($idGame, $name, $description, $price, $id_gender){
         $query = $this->db->prepare("UPDATE juego SET nombre=?, descripcion=?, precio=?, id_genero=? WHERE id_juego=?");
-        $query->execute(array($nombre, $descripcion, $precio, $id_genero, $idJuego));
+        $query->execute(array($name, $description, $price, $id_gender, $idGame));
     }
     
-    //borrar un juego (BAJA)
     function delete($id){
         $query = $this->db->prepare("DELETE FROM juego WHERE id_juego=?");
         $query->execute(array($id));
     }
+
+    function getGames(){
+        $query = $this->db->prepare("SELECT * FROM juego");
+        $query->execute();
+        $games = $query->fetchAll(PDO::FETCH_OBJ);
+        return $games;
+    }
+    
 }
 
