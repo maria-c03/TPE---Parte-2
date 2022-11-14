@@ -82,7 +82,7 @@ Ejemplo: http://localhost/proyectos/Tpe-parte2/api/juegos/{id_juego}
 - 201 Expected response "El juego ha sido actualizado"
 
 
-### Eliminiacion de Juego
+### Eliminacion de Juego
 
 DELETE /juegos/{id_juego}
 
@@ -107,7 +107,7 @@ Mediante este recurso se genera una solicitud que lista los comentarios de un ju
 Ejemplo: http://localhost/proyectos/Tpe-parte2/api/juegos/{id_juego}/comentarios
 
 #### Response code
-- 200 Expected response [{"id_comentario": 1,"usuario": "maria@gmail.com","comentario": "pesimo juego","puntuacion": 5,"id_juego": 1},{"id_comentario": 4,"usuario": "user@gmail.com","comentario": "me encanto","puntuacion": 2,"id_juego": 1}]
+- 200 Expected response [{"id_comentario": 1,"usuario": "maria@gmail.com","comentario": "pesimo juego","puntuacion": 1,"id_juego": 1},{"id_comentario": 4,"usuario": "user@gmail.com","comentario": "me encanto","puntuacion": 5,"id_juego": 1}]
 - 404 Expected response "El juego no tiene comentarios"
 - 404 Expected response "No existe el juego"
 
@@ -139,7 +139,7 @@ Ejemplo: http://localhost/proyectos/Tpe-parte2/api/comentarios
 - 200 Expected response {"id_comentario": 1,"usuario": "maria@gmail.com","comentario": "Juegazo","puntuacion": 5,"id_juego": 1}
 
 
-### Eliminiacion de Comentario
+### Eliminacion de Comentario
 
 DELETE /comentarios/{id_comentario}
 
