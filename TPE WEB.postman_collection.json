@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "164188c6-b441-48ca-a427-b5f8bc4424b7",
+		"name": "TPE WEB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24264710"
+	},
+	"item": [
+		{
+			"name": "Juegos",
+			"item": [
+				{
+					"name": "Obtener Juegos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/juegos?order=DESC&sort=id_juego&offset=20&limitPage=7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"juegos"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "DESC"
+								},
+								{
+									"key": "sort",
+									"value": "id_juego"
+								},
+								{
+									"key": "offset",
+									"value": "20"
+								},
+								{
+									"key": "limitPage",
+									"value": "7"
+								},
+								{
+									"key": "precio",
+									"value": "1800",
+									"disabled": true
+								},
+								{
+									"key": "operatorPrice",
+									"value": ">",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Juego",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/juegos/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"juegos",
+								"6"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "DESC",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Juego",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/juegos/39",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"juegos",
+								"39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Juegos",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InVzZXJAZ21haWwuY29tIiwiZXhwIjoxNjY4NDYwOTU1fQ.tc14jsBna4QAvfeqtmfH38Q6C5UmPTlgOYDP0D83xKA",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\" : \"juego NUEVISIMO\",\r\n    \"descripcion\" : \"este juego se inserto desde una api rest\",\r\n    \"precio\" : \"4500\",\r\n    \"id_genero\" : \"3\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/juegos/38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"juegos",
+								"38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Juego",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InVzZXJAZ21haWwuY29tIiwiZXhwIjoxNjY4NDU2ODc0fQ.PTTi-LrsPcSFbTvex8sL9p4gE-F3PGgr-i4mp5O8JqE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\" : \"God of War\",\r\n    \"descripcion\" : \"este juego se inserto desde una api rest\",\r\n    \"precio\" : \"7500\",\r\n    \"id_genero\" : \"4\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/juegos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"juegos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Obtener Comentarios de Juego",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/juegos/1/comentarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"juegos",
+								"1",
+								"comentarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Comentario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/comentarios/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"comentarios",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Comentario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/comentarios/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"comentarios",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Comentario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuario\" : \"sultanoo@gmail.com\",\r\n    \"comentario\" : \"este juego .....\",\r\n    \"puntuacion\" : \"10\",\r\n    \"id_juego\" : \"33\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/comentarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"comentarios"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autenticacion",
+			"item": [
+				{
+					"name": "Obtener Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "$2a$12$AIzIDXIEkSisNKy4qDSO3.a19yYeM9D2rsz1DYNBluJWH3giM5Cji",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/proyectos/Tpe-parte2/api/auth/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"proyectos",
+								"Tpe-parte2",
+								"api",
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

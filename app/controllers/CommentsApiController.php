@@ -25,11 +25,16 @@ class CommentsApiController{
 
     public function getCommentsGame($params = null) {
         $idGame = $params[':ID'];
-        $comments = $this->model->getAll($idGame);
-        if ($comments){
-            return $this->view->response($comments, 200);   
+        $game = $this->modelGame->get($idGame);
+        if($game){
+            $comments = $this->model->getAll($idGame);
+            if ($comments){
+                return $this->view->response($comments, 200);   
+            }else{
+                return $this->view->response("El juego no tiene comentarios", 404);
+            }
         }else{
-            return $this->view->response("El juego no tiene comentarios", 404);
+            return $this->view->response("No existe el juego", 404);
         }
     }
 
