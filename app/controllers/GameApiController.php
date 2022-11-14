@@ -34,11 +34,11 @@ class GameApiController{
         // $params = array("limitPage", "offset", "sort", "order");
         // array_key_exists("offset", $params);
 
-        if(!empty($_GET['limitPage']) || ($_GET['limitPage'] == "limitPage")){
+        if(!empty($_GET['limitPage'])){
             $limitPage=$_GET['limitPage'];
         }
 
-        if(!empty($_GET['offset']) || ($_GET['offset'] == "offset")){
+        if(!empty($_GET['offset'])){
             $offset=$_GET['offset'];
         }
 
@@ -52,9 +52,9 @@ class GameApiController{
 
         if (($sort != null && $order == null) || $order !=null && $sort == null){
             if ($sort ==null){
-                return $this->view->response("Sort is required or the field is invalid", 400);
+                return $this->view->response("Sort es requerido o el campo es invalido", 400);
             }else{
-                return $this->view->response("Order is required or the field is invalid", 400);
+                return $this->view->response("Order es requerido o el campo es invalido", 400);
             }
         }
 
@@ -74,7 +74,7 @@ class GameApiController{
         }elseif($price != null && $operatorPrice != null){
             $games = $this->model->filterByPrice($sort, $order, $limitPage, $offset, $price, $operatorPrice);
         }elseif(($price != null && $operatorPrice == null) || ($price == null && $operatorPrice != null)){
-            return $this->view->response("price and operatorPrice are required", 400);
+            return $this->view->response("price y operatorPrice son requeridos", 400);
         }
         else{
             $games = $this->model->getAllOrder($sort, $order, $limitPage, $offset);
@@ -83,7 +83,7 @@ class GameApiController{
         if($games){
             $this->view->response($games, 200);
         }else{
-            $this->view->response("Page not found", 404);
+            $this->view->response("No se encontraron resultados", 404);
         }
     }
 
@@ -110,7 +110,7 @@ class GameApiController{
 
     public function addGame() {
         if(!$this->AuthApiHelper->isLoggedIn()){
-            $this->view->response("No estas logeado", 401);
+            $this->view->response("No estas logueado", 401);
             return;
         }
 
@@ -138,7 +138,7 @@ class GameApiController{
 
     public function modifyGame($params = null){
         if(!$this->AuthApiHelper->isLoggedIn()){
-            $this->view->response("No estas logeado", 401);
+            $this->view->response("No estas logueado", 401);
             return;
         }
 
@@ -150,15 +150,23 @@ class GameApiController{
             $name = $gameModify->nombre;
             $description = $gameModify->descripcion;
             $price = $gameModify->precio;
-            $id_gender = $gameModify->id_genero;
-
-            if(($id_gender == "2") || ( $id_gender == "3") || ($id_gender == "4") || ($id_gender == "15") || ($id_gender == "20")){
-                $this->model->modify($idGame, $name, $description, $price, $id_gender);
-                $this->view->response("El juego ha sido actualizado", 200);
-            } else{
-                $this->view->response("El id_genero no es valido", 400);
+            $idGenre = $gameModify->id_genero;
+            if(!empty($name) && !empty($description) && !empty($price) && !empty($idGenre)){
+                $genres = $this->modelGenre->get();
+                $genreIds = [];
+                foreach($genres as $genre){
+                    array_push($genreIds, $genre->id_genero);
+                }
+                $existId = in_array($idGenre,$genreIds);
+                if($existId == true){
+                    $this->model->modify($idGame, $name, $description, $price, $idGenre);
+                    $this->view->response("El juego ha sido actualizado", 200);
+                }else {
+                    $this->view->response("No existe el genero con el id={$idGenre}", 404);
+                }
+            }else{
+                $this->view->response("Completa todos los campos", 400);
             }
-
         }else{
             $this->view->response("El juego no se ha encontrado", 404);
         }
