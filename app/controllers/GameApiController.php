@@ -31,9 +31,7 @@ class GameApiController{
         $order = null;
         $limitPage = 3;
         $offset = 0;
-        // $params = array("limitPage", "offset", "sort", "order");
-        // array_key_exists("offset", $params);
-
+        
         if(!empty($_GET['limitPage'])){
             $limitPage=$_GET['limitPage'];
         }
@@ -41,17 +39,17 @@ class GameApiController{
         if(!empty($_GET['offset'])){
             $offset=$_GET['offset'];
         }
-
-        if(!empty($_GET['sort']) && ($_GET['sort'] == "precio") || ($_GET['sort'] == "id_juego") || ($_GET['sort'] == "id_genero") || ($_GET['sort'] == "nombre")){
+        
+        if(!empty($_GET['sort']) && (($_GET['sort'] == "precio") || ($_GET['sort'] == "id_juego") || ($_GET['sort'] == "id_genero") || ($_GET['sort'] == "nombre"))){
             $sort = $_GET['sort'];
         }
 
-        if(!empty($_GET['order']) && ($_GET['order'] == "asc") || ($_GET['order'] == "desc") || ($_GET['order'] == "ASC") || ($_GET['order'] == "DESC")){
+        if(!empty($_GET['order']) && (($_GET['order'] == "asc") || ($_GET['order'] == "desc") || ($_GET['order'] == "ASC") || ($_GET['order'] == "DESC"))){
             $order =$_GET['order'];
         }
 
         if (($sort != null && $order == null) || $order !=null && $sort == null){
-            if ($sort ==null){
+            if ($sort == null){
                 return $this->view->response("Sort es requerido o el campo es invalido", 400);
             }else{
                 return $this->view->response("Order es requerido o el campo es invalido", 400);
@@ -59,6 +57,7 @@ class GameApiController{
         }
 
         $price = null;
+
         if(!empty($_GET['precio'])){
             $price = $_GET['precio'];
         }
@@ -69,15 +68,23 @@ class GameApiController{
             $operatorPrice = $_GET['operatorPrice'];
         }
 
-        if ($sort == null && $order == null){
+        if (($price != null && $operatorPrice == null) || ($price ==null && $operatorPrice != null)){
+            if ($price == null){
+                return $this->view->response("Price es requerido o el campo es invalido", 400);
+            }else{
+                return $this->view->response("OperatorPrice es requerido o el campo es invalido", 400);
+            }
+        }
+
+
+        if ($sort == null && $order == null && $price == null && $operatorPrice == null){
             $games = $this->model->getAll($limitPage, $offset);
         }elseif($price != null && $operatorPrice != null){
-            $games = $this->model->filterByPrice($sort, $order, $limitPage, $offset, $price, $operatorPrice);
-        }elseif(($price != null && $operatorPrice == null) || ($price == null && $operatorPrice != null)){
-            return $this->view->response("price y operatorPrice son requeridos", 400);
-        }
-        else{
+            $games = $this->model->filterByPrice($limitPage, $offset, $price, $operatorPrice);
+        }elseif($sort != null && $order != null){
             $games = $this->model->getAllOrder($sort, $order, $limitPage, $offset);
+        }else{
+            $games = $this->model->filterAndPaginated($sort, $order, $limitPage, $offset, $price, $operatorPrice);
         }
 
         if($games){

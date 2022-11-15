@@ -21,6 +21,16 @@ Ejemplo: http://localhost/proyectos/Tpe-parte2/api/juegos?order=asc&sort=id_jueg
 #### Response code
 - 200 Expected response [{"id_juego":4,"nombre":"Tom Raider","descripcion":"Relata los intensos y conflictivos or\u00edgenes de Lara Croft y su transformaci\u00f3n de joven asustadiza a endurecida superviviente.","precio":2000,"id_genero":2},{"id_juego":32,"nombre":"lol","descripcion":"dshjhakd","precio":1500,"id_genero":15},{"id_juego":33,"nombre":"wow","descripcion":"dnsajkdsakj","precio":150,"id_genero":15}]
 - 404 Expected response "No se encontraron resultados"
+- 400 Expected response: 
+#### caso sort no es enviado o invalido
+- "Sort es requerido o el campo es invalido"
+#### caso order no es enviado o invalido
+- "Order es requerido o el campo es invalido"
+#### caso price no es enviado o invalido
+- "Price es requerido o el campo es invalido"
+#### caso OperatorPrice no es enviado o invalido
+- "OperatorPrice es requerido o el campo es invalido"
+
 
 ### Informacion de un Juego
 

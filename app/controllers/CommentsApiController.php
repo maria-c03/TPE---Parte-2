@@ -48,7 +48,6 @@ class CommentsApiController{
         }
     }
 
-
     public function addComment() {
         $comment = $this->getData();
         $idGame = $comment->id_juego;
@@ -71,7 +70,6 @@ class CommentsApiController{
                 $this->view->response("Complete todos los campos", 400);
         }
     }
-  
 
     public function deleteComment($params = null) {
         $idComment = $params[':ID'];
@@ -83,6 +81,5 @@ class CommentsApiController{
         else 
             $this->view->response("El comentario con el id={$idComment} no existe", 404);
     }
-
 
 }

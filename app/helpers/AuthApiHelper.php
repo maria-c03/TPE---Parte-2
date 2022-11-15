@@ -5,6 +5,7 @@ class AuthApiHelper{
     function base64url_encode($data) {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
+
     function isLoggedIn(){
         $payload = $this->getToken();
         if(isset($payload->id)){
@@ -18,6 +19,7 @@ class AuthApiHelper{
         $key = "WebKeyTPE";
         $authentication = $this->getAuthHeader();
         $authentication = explode(" ", $authentication);
+        
         if($authentication[0] != "Bearer" || count($authentication) != 2){
             return array();
         }
@@ -27,10 +29,12 @@ class AuthApiHelper{
         $signature = $token[2];
         $new_signature = hash_hmac('SHA256', "$header.$payload", $key, true);
         $new_signature = $this->base64url_encode($new_signature);
+
         if($signature!=$new_signature){
             return array();   
         }
         $payload = json_decode(base64_decode($payload));
+
         if(!isset($payload->exp) || $payload->exp<time()){
             return array();
         }

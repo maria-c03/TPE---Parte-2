@@ -26,7 +26,7 @@ class AuthApiController{
 
     public function getToken() {
         $key = "WebKeyTPE";
-        // Obtener "Basic base64(user:pass)
+
         $basic = $this->authHelper->getAuthHeader();
         
         if(empty($basic)){
@@ -34,20 +34,18 @@ class AuthApiController{
             return;
         }
         $basic = explode(" ",$basic);
+        
         if($basic[0]!="Basic"){
             $this->view->response('La autenticación debe ser Basic', 401);
             return;
         }
-
-        //validar usuario:contraseña
-        $userpass = base64_decode($basic[1]); // user:pass
+        $userpass = base64_decode($basic[1]);
         $userpass = explode(":", $userpass);
         $user = $userpass[0];
         $pass = $userpass[1];
         $userdb = $this->userModel->getUser($user);
 
         if($user == $userdb->email && $pass == $userdb->password){
-            //  crear un token
             $header = array(
                 'alg' => 'HS256',
                 'typ' => 'JWT'

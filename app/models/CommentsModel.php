@@ -31,9 +31,4 @@ class CommentsModel{
         $query->execute(array($idComment));
     }
 
-
-   
-
-
-
 }

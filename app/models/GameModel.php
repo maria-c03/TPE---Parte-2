@@ -20,12 +20,20 @@ class GameModel{
         return $games;
     }
 
-    function filterByPrice($sort, $order, $limitPage, $offset, $price, $operatorPrice){
+    function filterAndPaginated($sort, $order, $limitPage, $offset, $price, $operatorPrice){
         $query = $this->db->prepare("SELECT * FROM juego WHERE precio $operatorPrice ? ORDER BY $sort $order limit $limitPage offset $offset");
         $query->execute(array($price));
         $games = $query->fetchAll(PDO::FETCH_OBJ);
         return $games;
     }
+
+    function filterByPrice($limitPage, $offset, $price, $operatorPrice){
+        $query = $this->db->prepare("SELECT * FROM juego WHERE precio $operatorPrice ? limit $limitPage offset $offset");
+        $query->execute(array($price));
+        $games = $query->fetchAll(PDO::FETCH_OBJ);
+        return $games;
+    }
+
     
     function get($idGame){
         $query = $this->db->prepare("SELECT * FROM juego WHERE id_juego=?");
