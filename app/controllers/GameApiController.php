@@ -79,12 +79,12 @@ class GameApiController{
 
         if ($sort == null && $order == null && $price == null && $operatorPrice == null){
             $games = $this->model->getAll($limitPage, $offset);
+        }elseif($sort != null && $order != null && $price != null && $operatorPrice != null){
+            $games = $this->model->filterAndPaginated($sort, $order, $limitPage, $offset, $price, $operatorPrice);
         }elseif($price != null && $operatorPrice != null){
             $games = $this->model->filterByPrice($limitPage, $offset, $price, $operatorPrice);
-        }elseif($sort != null && $order != null){
-            $games = $this->model->getAllOrder($sort, $order, $limitPage, $offset);
         }else{
-            $games = $this->model->filterAndPaginated($sort, $order, $limitPage, $offset, $price, $operatorPrice);
+            $games = $this->model->getAllOrder($sort, $order, $limitPage, $offset);
         }
 
         if($games){
