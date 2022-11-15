@@ -28,7 +28,7 @@ Ejemplo: http://localhost/proyectos/Tpe-parte2/api/juegos?order=asc&sort=id_jueg
 - "Order es requerido o el campo es invalido"
 #### caso price no es enviado o invalido
 - "Price es requerido o el campo es invalido"
-#### caso OperatorPriceg no es enviado o invalido
+#### caso operatorPrice no es enviado o invalido
 - "OperatorPrice es requerido o el campo es invalido"
 
 
