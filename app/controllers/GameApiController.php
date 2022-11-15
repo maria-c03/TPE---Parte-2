@@ -31,15 +31,19 @@ class GameApiController{
         $order = null;
         $limitPage = 3;
         $offset = 0;
-        
+ 
         if(!empty($_GET['limitPage'])){
             $limitPage=$_GET['limitPage'];
         }
-
+        
         if(!empty($_GET['offset'])){
             $offset=$_GET['offset'];
         }
-        
+
+        if(is_numeric($limitPage)  == false || is_numeric($offset) == false ){
+            return $this->view->response("limitPage o offset no es un valor valido", 400);
+        }
+
         if(!empty($_GET['sort']) && (($_GET['sort'] == "precio") || ($_GET['sort'] == "id_juego") || ($_GET['sort'] == "id_genero") || ($_GET['sort'] == "nombre"))){
             $sort = $_GET['sort'];
         }
