@@ -11,17 +11,11 @@ class AuthApiController{
     private $userModel;
     private $view;
     private $authHelper;
-    private $data;
 
     public function __construct() {
         $this->userModel = new userModel();
         $this->view = new ApiView();
         $this->authHelper = new AuthApiHelper();
-        $this->data = file_get_contents("php://input");
-    }
-
-    private function getData() {
-        return json_decode($this->data);
     }
 
     public function getToken() {
